@@ -15,9 +15,8 @@
 namespace dispatcher::queue {
 
 class PriorityQueue {
-    // здесь ваш код
 public:
-    // explicit PriorityQueue(?);
+    explicit PriorityQueue(const std::unordered_map<TaskPriority, QueueOptions> &config);
 
     void push(TaskPriority priority, std::function<void()> task);
     // block on pop until shutdown is called
@@ -27,6 +26,12 @@ public:
     void shutdown();
 
     ~PriorityQueue();
+
+private:
+    std::map<TaskPriority, std::unique_ptr<IQueue>> queues_;
+    std::atomic<bool> shutdown_{false};
+    std::mutex pop_mutex_;
+    std::condition_variable task_available_;
 };
 
 }  // namespace dispatcher::queue
