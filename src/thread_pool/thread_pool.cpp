@@ -42,11 +42,6 @@ void ThreadPool::worker_function() {
 ThreadPool::~ThreadPool() {
     shutdown_.store(true, std::memory_order_release);
     queue_->shutdown();
-    for (auto &worker : workers_) {
-        if (worker.joinable()) {
-            worker.join();
-        }
-    }
 }
 
 }  // namespace dispatcher::thread_pool

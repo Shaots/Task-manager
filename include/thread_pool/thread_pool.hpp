@@ -13,7 +13,7 @@ public:
 
 private:
     std::shared_ptr<queue::PriorityQueue> queue_;
-    std::vector<std::thread> workers_;
+    std::vector<std::jthread> workers_;
     std::atomic<bool> shutdown_{false};
 
     void worker_function();
